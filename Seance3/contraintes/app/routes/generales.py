@@ -1,6 +1,6 @@
 from ..app import app, db
 from flask import render_template
-from models.factbook import Country
+from ..models.factbook import Country
 
 @app.route("/pays")
 def pays():
