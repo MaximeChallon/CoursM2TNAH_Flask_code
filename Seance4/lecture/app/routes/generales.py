@@ -17,3 +17,18 @@ def all():
         })
     
     return render_template("pages/all.html", donnees=donnees, sous_titre="All")
+
+@app.route("/first")
+def first():
+    donnees = []
+
+    query =  Country.query
+    resultat = query.first()
+
+    donnees.append({
+            "nom": resultat.name,
+            "description": resultat.Introduction,
+            "type": resultat.type
+        })
+    
+    return render_template("pages/all.html", donnees=donnees, sous_titre="First")
