@@ -1,0 +1,13 @@
+{% extends "partials/conteneur.html" %}
+
+{% block body %}
+
+    <div class="container">
+        <h1>Bienvenue sur l'application du Factbook!</h1>
+        <p>Voici le lien vers le site officiel : <a
+                href="https://www.cia.gov/the-world-factbook/">https://www.cia.gov/the-world-factbook/</a></p>
+
+        <p>Il y a {{count}} pays {{type}} dans la base de données du Factbook.</p>
+    </div>
+
+{% endblock %}

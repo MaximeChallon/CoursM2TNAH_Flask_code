@@ -128,3 +128,12 @@ def filter_or_explicite():
         })
     
     return render_template("pages/all.html", donnees=donnees, sous_titre="Or explicite")
+
+@app.route("/count")
+def count():
+    donnees = []
+
+    query =  Country.query
+    resultat = query.filter(Country.type == 'sovereign').count()
+    
+    return render_template("pages/count.html", count=str(resultat), type="souverains", sous_titre="Count")
