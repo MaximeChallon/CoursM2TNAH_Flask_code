@@ -137,3 +137,36 @@ def count():
     resultat = query.filter(Country.type == 'sovereign').count()
     
     return render_template("pages/count.html", count=str(resultat), type="souverains", sous_titre="Count")
+
+@app.route("/order_by")
+def order_by():
+    donnees = []
+
+    query =  Country.query
+    resultats = query.order_by(Country.name).all()
+
+    for resultat in resultats:
+        donnees.append({
+            "nom": resultat.name,
+            "description": resultat.Introduction,
+            "type": resultat.type
+        })
+    
+    return render_template("pages/all.html", donnees=donnees, sous_titre="Order by")
+
+
+@app.route("/order_by_desc")
+def order_by_desc():
+    donnees = []
+
+    query =  Country.query
+    resultats = query.order_by(Country.name.desc()).all()
+
+    for resultat in resultats:
+        donnees.append({
+            "nom": resultat.name,
+            "description": resultat.Introduction,
+            "type": resultat.type
+        })
+    
+    return render_template("pages/all.html", donnees=donnees, sous_titre="Order by DESC")
