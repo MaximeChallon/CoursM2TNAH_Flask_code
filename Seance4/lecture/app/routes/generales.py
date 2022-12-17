@@ -218,3 +218,12 @@ def having():
         })
     
     return render_template("pages/all.html", donnees=donnees, sous_titre="Having")
+
+@app.route("/ressources/<string:nom>")
+def ressources(nom):
+    ressources = []
+
+    query =  Country.query
+    ressources = query.filter(Country.name == nom).first()
+
+    return render_template("pages/pays.html", pays=nom, ressources=ressources, sous_titre=nom)
