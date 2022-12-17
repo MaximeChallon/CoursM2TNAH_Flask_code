@@ -1,6 +1,6 @@
 from ..app import app, db
 from flask import render_template
-from ..models.factbook import Country
+from ..models.factbook import Country, Elevation
 from sqlalchemy import and_, or_, distinct, func
 
 @app.route("/all")
@@ -227,3 +227,14 @@ def ressources(nom):
     ressources = query.filter(Country.name == nom).first()
 
     return render_template("pages/pays.html", pays=nom, ressources=ressources, sous_titre=nom)
+
+@app.route("/altitude/<string:nom>")
+def altitude(nom):
+    donnees =  db.session.\
+        query(Elevation).\
+        select_from(Country).\
+        join(Country.elevations).\
+        filter(Country.name == nom).\
+        all()
+    
+    return render_template("pages/elevation.html", pays=nom, donnees=donnees, sous_titre=nom)

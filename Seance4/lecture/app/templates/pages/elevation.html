@@ -1,0 +1,25 @@
+{% extends "partials/conteneur.html" %}
+
+{% block body %}
+
+    <div class="container">
+        <h1>Bienvenue sur l'application du Factbook!</h1>
+        <p>Voici le lien vers le site officiel : <a
+                href="https://www.cia.gov/the-world-factbook/">https://www.cia.gov/the-world-factbook/</a></p>
+        <p>Vous avez choisi d'afficher les données d'altitude du pays suivant: {{pays}}</p>
+        
+        <h2>Les données d'altitude de {{pays}}</h2>
+        {%if donnees %}
+        <ul>
+            {%for data in donnees %}
+            <li>Point culminant : {{data.highest_point}}</li>
+            <li>Point le plus bas : {{data.lowest_point}}</li>
+            <li>Altitude moyenne : {{data.mean_elevation}}</li>
+            {%endfor%}
+        </ul>
+        {%else%}
+        <p>Il n'y a pas de ressources connues pour ce pays</p>
+        {%endif%}
+    </div>
+
+{% endblock %}
