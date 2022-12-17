@@ -1,0 +1,25 @@
+{% extends "partials/conteneur.html" %}
+
+{% block body %}
+
+    <div class="container">
+        <h1>Bienvenue sur l'application du Factbook!</h1>
+        <p>Voici le lien vers le site officiel : <a
+                href="https://www.cia.gov/the-world-factbook/">https://www.cia.gov/the-world-factbook/</a></p>
+        <p>Vous avez choisi de comparer les ressources des pays suivants: {{pays}} et {{sous_titre}}</p>
+        
+        {%for p in ressources%}
+            <h2>Les ressources de {{p.name}}</h2>
+            {%if p.resources %}
+            <ul>
+                {%for resource in p.resources %}
+                <li>{{resource.name}}</li>
+                {%endfor%}
+            </ul>
+            {%else%}
+            <p>Il n'y a pas de ressources connues pour ce pays</p>
+            {%endif%}
+        {%endfor%}
+    </div>
+
+{% endblock %}

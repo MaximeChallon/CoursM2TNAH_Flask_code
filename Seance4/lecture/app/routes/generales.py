@@ -238,3 +238,23 @@ def altitude(nom):
         all()
     
     return render_template("pages/elevation.html", pays=nom, donnees=donnees, sous_titre=nom)
+
+@app.route("/ressources_union/<string:nom>/<string:nom_>")
+def ressources_union(nom, nom_):
+    ressources = []
+
+    query =  Country.query
+    ressources_nom = query.filter(Country.name == nom)
+    ressources_nom_ = query.filter(Country.name == nom_)
+
+    ressources = ressources_nom.union(ressources_nom_).all()
+
+    return render_template("pages/ressources.html", pays=nom, ressources=ressources, sous_titre=nom_)
+
+@app.route("/ressources_simple/<string:nom>/<string:nom_>")
+def ressources_simple(nom, nom_):
+    ressources = []
+
+    ressources =  Country.query.filter(or_(Country.name == nom, Country.name == nom_)).all()
+
+    return render_template("pages/ressources.html", pays=nom, ressources=ressources, sous_titre=nom_)
