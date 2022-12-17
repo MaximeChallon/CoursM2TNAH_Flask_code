@@ -1,7 +1,7 @@
 from ..app import app, db
 from flask import render_template
 from ..models.factbook import Country
-from sqlalchemy import and_, or_, distinct
+from sqlalchemy import and_, or_, distinct, func
 
 @app.route("/all")
 def all():
@@ -202,3 +202,19 @@ def distinct():
         })
     
     return render_template("pages/all.html", donnees=donnees, sous_titre="Distinct")
+
+@app.route("/having")
+def having():
+    donnees = []
+
+    query =  Country.query
+    resultats = query.group_by(Country.type).having(func.count(Country.name) > 20).all()
+
+    for resultat in resultats:
+        donnees.append({
+            "nom": "",
+            "description": "",
+            "type": resultat.type
+        })
+    
+    return render_template("pages/all.html", donnees=donnees, sous_titre="Having")
