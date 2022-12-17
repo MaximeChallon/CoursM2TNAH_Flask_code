@@ -1,7 +1,7 @@
 from ..app import app, db
 from flask import render_template
 from ..models.factbook import Country
-from sqlalchemy import and_, or_
+from sqlalchemy import and_, or_, distinct
 
 @app.route("/all")
 def all():
@@ -170,3 +170,35 @@ def order_by_desc():
         })
     
     return render_template("pages/all.html", donnees=donnees, sous_titre="Order by DESC")
+
+@app.route("/group_by")
+def group_by():
+    donnees = []
+
+    query =  Country.query
+    resultats = query.group_by(Country.type).all()
+
+    for resultat in resultats:
+        donnees.append({
+            "nom": "",
+            "description": "",
+            "type": resultat.type
+        })
+    
+    return render_template("pages/all.html", donnees=donnees, sous_titre="Group by")
+
+@app.route("/distinct")
+def distinct():
+    donnees = []
+
+    query =  Country.query
+    resultats = query.with_entities(Country.type).distinct()
+
+    for resultat in resultats:
+        donnees.append({
+            "nom": "",
+            "description": "",
+            "type": resultat.type
+        })
+    
+    return render_template("pages/all.html", donnees=donnees, sous_titre="Distinct")
