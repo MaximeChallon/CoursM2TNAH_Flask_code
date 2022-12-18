@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Factbook | {{sous_titre}}</title>
+    {% include "partials/css.html" %}
+    {% include "partials/metadata.html" %}
+    {% include "partials/js.html" %}
+    {% block js %}{%endblock%}
+    {% block css %}{%endblock%}
+</head>
+
+<body>
+    <div class="bg-image" style="
+    background-image: url('https://www.cia.gov/the-world-factbook/static/778a257ec6e116fbb7aac018c170b3eb/47498/wfb-feature-world.jpg');
+    height: 450px; width:100%;overflow:hidden;margin-top: -300px;"></div>
+
+    {% block body%}{%endblock%}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+{% extends "partials/conteneur.html" %}
+
+{% from "macros.html" import pagination_macro with context %}
+
+{% block body %}
+
+    <div class="container">
+        <h1>Bienvenue sur l'application du Factbook!</h1>
+        <p>Voici le lien vers le site officiel : <a
+                href="https://www.cia.gov/the-world-factbook/">https://www.cia.gov/the-world-factbook/</a></p>
+
+        {{ pagination_macro('pays', pagination.page) }}
+
+        {%if pagination%}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for pays in pagination.items%}
+                <tr>
+                    <th scope="row">{{loop.index}}</th>
+                    <td>{{pays.name}}</td>
+                    <td>{{pays.type}}</td>
+                    <td>{{pays.Introduction}}</td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+        {%endif%}
+    </div>
+
+    {{ pagination_macro('pays', pagination.page) }}
+
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% macro pagination_macro(endpoint, page_) %}
+<div class="container">
+    <nav aria-label="research-pagination">
+        <ul class="pagination">
+            {%- for page in pagination.iter_pages() %}
+                {% if page %}
+        
+                {% if page != pagination.page %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for(endpoint, page=page_+1) }}">{{page}}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item active disabled">
+                    <a class="page-link">{{page}} <span class="sr-only">(actuelle)</span></a>
+                    </li>
+                {% endif %}
+        
+                {% else %}
+                    <li class="page-item disabled">
+                    <a class="page-link">...</a>
+                    </li>
+                {% endif %}
+        
+            {%- endfor %}
+        </ul>
+    </nav>
+</div>
+{% endmacro %}
