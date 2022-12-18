@@ -34,6 +34,22 @@ def first():
     
     return render_template("pages/all.html", donnees=donnees, sous_titre="First")
 
+@app.route("/limit")
+def limit():
+    donnees = []
+
+    query =  Country.query
+    tous_resultats = query.limit(10).all()
+
+    for resultat in tous_resultats:
+        donnees.append({
+            "nom": resultat.name,
+            "description": resultat.Introduction,
+            "type": resultat.type
+        })
+    
+    return render_template("pages/all.html", donnees=donnees, sous_titre="Limit")
+
 @app.route("/get")
 def get():
     donnees = []
