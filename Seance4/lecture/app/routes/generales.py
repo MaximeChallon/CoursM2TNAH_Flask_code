@@ -170,7 +170,6 @@ def order_by():
     
     return render_template("pages/all.html", donnees=donnees, sous_titre="Order by")
 
-
 @app.route("/order_by_desc")
 def order_by_desc():
     donnees = []
