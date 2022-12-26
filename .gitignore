@@ -9,6 +9,7 @@ tmp/
 # C extensions 
 *.so
 *- Copie*
+*_clean_init*
 
 # Distribution / packaging
 .Python
