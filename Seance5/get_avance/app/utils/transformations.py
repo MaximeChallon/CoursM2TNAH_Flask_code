@@ -27,3 +27,9 @@ def nettoyage_string_to_int(chaine):
                 tmp = tmp + int(clean(el))
             res = tmp
     return res
+
+def clean_arg(arg):
+    if arg == "":
+        return None
+    else:
+        return arg
