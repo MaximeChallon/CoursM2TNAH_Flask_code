@@ -120,17 +120,21 @@ def recherche_rapide(page=1):
 @app.route("/recherche", methods=['GET'])
 @app.route("/recherche/<int:page>", methods=['GET'])
 def recherche(page=1):
-    form = Recherche()
+    form = Recherche() 
 
     # récupération des éventuels arguments de l'URL qui seraient le signe de l'envoi d'un formulaire
     nom_pays =  clean_arg(request.args.get("nom_pays", None))
     ressource =  clean_arg(request.args.get("ressources", None))
     continent =  clean_arg(request.args.get("continents", None))
 
+    # initialisation des données de retour dans le cas où il n'y ait pas de requête
+    donnees = []
+
     # si l'un des champs de recherche a une valeur, alors cela veut dire que le formulaire a été rempli et qu'il faut lancer une recherche 
     # dans les données
     if nom_pays  or continent or ressource:
-        # initialisation de la recherche; en fonction de la présence ou nom d'un filtre côté utilisateur, nous effectuerons des filtres SQLAlchemy
+        # initialisation de la recherche; en fonction de la présence ou nom d'un filtre côté utilisateur, nous effectuerons des filtres SQLAlchemy,
+        # ce qui signifie que nous pouvons jouer ici plusieurs filtres d'affilée
         query_results = Country.query
 
         if nom_pays:
