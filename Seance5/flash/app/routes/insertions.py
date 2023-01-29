@@ -1,5 +1,5 @@
 from ..app import app, db
-from flask import render_template, request
+from flask import render_template, request, flash
 from ..models.factbook import Country, Resources, Map
 from ..models.formulaires import InsertionPays
 from ..utils.transformations import  clean_arg
@@ -33,9 +33,11 @@ def insertion_pays():
 
             db.session.add(nouveau_pays)
             db.session.commit()
+
+            flash("L'insertion du pays "+ nom_pays + " s'est correctement déroulée", 'info')
     
     except Exception as e :
-        print(e)
+        flash("Une erreur s'est produite lors de l'insertion de " + nom_pays + " : " + str(e), "error")
     
     return render_template("pages/insertion_pays.html", 
             sous_titre= "Insertion pays" , 
