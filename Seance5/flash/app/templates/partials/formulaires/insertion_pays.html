@@ -1,0 +1,43 @@
+<form action="{{url_for('insertion_pays')}}" method="post" name="insertion_pays">
+    {{ form.hidden_tag() }}
+
+    <div class="form-group">
+        <label for="nom_pays">Nom du pays </label>
+        {{ form.nom_pays(class_="form-control", placeholder_="Pays") }}
+        <small id="nom_pays" class="form-text text-muted">Entrer le nom du pays</small>
+    </div>
+
+    <div class="form-group">
+        <label for="code_pays">Code du pays </label>
+        {{ form.code_pays(class_="form-control", placeholder_="Code") }}
+        <small id="code_pays" class="form-text text-muted">Entrer le code du pays</small>
+    </div>
+
+    <div class="form-group">
+        <label for="type">Type du pays</label>
+        {{ form.type(class_="form-control") }}
+        <small id="type" class="form-text text-muted">Sélectionner le 
+            type du pays</small>
+    </div>
+
+    <div class="form-group">
+        <label for="introduction">Description</label>
+        {{ form.introduction(class_="form-control") }}
+        <small id="introduction" class="form-text text-muted">Description du pays</small>
+    </div>
+
+    <div class="form-group">
+        <label for="ressources">Ressources possédées</label>
+        {{ form.ressources(class_="form-control") }}
+        <small id="ressources" class="form-text text-muted">Sélectionner une ou plusieurs ressources possédées par le pays</small>
+    </div>
+
+    <div class="form-group">
+        <label for="continent">Continent d'appartenance</label>
+        {{ form.continent(class_="form-control") }}
+        <small id="continent" class="form-text text-muted">Sélectionner un 
+            continent</small>
+    </div>
+
+    <p><input type="submit" value="Insérer"></p>
+</form>
