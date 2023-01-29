@@ -7,7 +7,6 @@ from ..utils.transformations import  clean_arg
 @app.route("/insertions/pays", methods=['GET', 'POST'])
 def insertion_pays():
     form = InsertionPays() 
-    donnees = []
 
     if form.validate_on_submit():
         nom_pays =  clean_arg(request.form.get("nom_pays", None))
@@ -27,11 +26,9 @@ def insertion_pays():
                 query.\
                 filter(Resources.id == ressource).\
                 first()
-            print(ressource)
             nouveau_pays.resources.append(ressource)
         
-        continent = Map.query.filter(Map.name==continent).first()
-        nouveau_pays.maps.append(continent)
+        nouveau_pays.maps.append(Map.query.filter(Map.name==continent).first())
 
         db.session.add(nouveau_pays)
         db.session.commit()
