@@ -38,6 +38,8 @@ def insertion_pays():
     
     except Exception as e :
         flash("Une erreur s'est produite lors de l'insertion de " + nom_pays + " : " + str(e), "error")
+
+        db.session.rollback()
     
     return render_template("pages/insertion_pays.html", 
             sous_titre= "Insertion pays" , 
