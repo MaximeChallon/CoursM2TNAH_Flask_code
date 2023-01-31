@@ -1,0 +1,243 @@
+{% extends "partials/conteneur.html" %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <h1>Ensemble des données sur le pays {{sous_titre}}</h1>
+        <br>
+    </div>
+
+    <div id="accordion">
+        <!--généralités-->
+        <div class="card">
+            <div class="card-header" id="headinggeneralites">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapsegeneralites"
+                        aria-expanded="false" aria-controls="collapsegeneralites">
+                        Généralités
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapsegeneralites" class="collapse " aria-labelledby="headinggeneralites"
+                data-parent="#accordion">
+                <div class="card-body">
+                    <p><b>Identifiant Factbook</b> : {{donnees.id}}</p>
+                    <p><b>Type de pays</b> : {{donnees.type}}</p>
+                    <p><b>Description succincte</b> : {{donnees.Introduction}}</p>
+                    <p><b>Continent(s) </b>:
+                        {% if donnees.maps %}
+                    <ul>
+                        {%for map in donnees.maps%}
+                        <li><a href="{{url_for('un_continent', nom_continent=map.name)}}">{{map.name}}</a></li>
+                        {%endfor%}
+                    </ul>
+                    {%endif%}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- superficie-->
+        <div class="card">
+            <div class="card-header" id="headingsuperficie">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapsesuperficie"
+                        aria-expanded="false" aria-controls="collapsesuperficie">
+                        Superficie
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapsesuperficie" class="collapse " aria-labelledby="headingsuperficie" data-parent="#accordion">
+                <div class="card-body">
+                    <p><b>Total </b>: {{donnees.areas[0].total}}, divisé en
+                    <ul>
+                        <li><b>Terre </b>: {% if donnees.areas[0].land %}{{donnees.areas[0].land}}{% else %} 0 sq km {%
+                            endif %}</li>
+                        <li><b>Eau </b>: {% if donnees.areas[0].water %}{{donnees.areas[0].water}}{% else %} 0 sq km {%
+                            endif %}</li>
+                    </ul>
+                    </p>
+                    {%if donnees.areas[0].note %}
+                    <p><b>Note </b>: {{donnees.areas[0].note}}</p>
+                    {%endif%}
+                    <p><b>Ordre de grandeur </b>: {{donnees.areas[0].area_comparative}}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- frontières-->
+        <div class="card">
+            <div class="card-header" id="headingfrontiere">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapsefrontiere"
+                        aria-expanded="false" aria-controls="collapsefrontiere">
+                        Frontières
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapsefrontiere" class="collapse " aria-labelledby="headingfrontiere" data-parent="#accordion">
+                <div class="card-body">
+                    <p><b>Longueur </b>: {% if donnees.boundaries[0].total %} {{donnees.boundaries[0].total}}{% else %}
+                        0 km {% endif %}</p>
+                    {%if donnees.boundaries[0].border_countries %}
+                    <p><b>Pays frontaliers </b>: {{donnees.boundaries[0].border_countries}}</p>
+                    {%endif%}
+                </div>
+            </div>
+        </div>
+
+        <!-- altitude-->
+        <div class="card">
+            <div class="card-header" id="headingaltitude">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapsealtitude"
+                        aria-expanded="false" aria-controls="collapsealtitude">
+                        Altitude
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapsealtitude" class="collapse " aria-labelledby="headingaltitude" data-parent="#accordion">
+                <div class="card-body">
+                    <p><b>Point le plus haut </b>: {% if donnees.elevations[0].highest_point %}
+                        {{donnees.elevations[0].highest_point}}{% else %} Inconnu {% endif %}</p>
+                    <p><b>Point le plus bas </b>: {% if donnees.elevations[0].lowest_point %}
+                        {{donnees.elevations[0].lowest_point}}{% else %} Inconnu {% endif %}</p>
+                    <p><b>Altitude moyenne </b>: {% if donnees.elevations[0].mean_elevation %}
+                        {{donnees.elevations[0].mean_elevation}}{% else %} Inconnue {% endif %}</p>
+                    {%if donnees.elevations[0].note %}
+                    <p><b>Note </b>: {{donnees.elevations[0].note}}</p>
+                    {%endif%}
+                </div>
+            </div>
+        </div>
+
+        <!-- géographie-->
+        <div class="card">
+            <div class="card-header" id="headinggeo">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapsegeo"
+                        aria-expanded="false" aria-controls="collapsegeo">
+                        Géographie
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapsegeo" class="collapse " aria-labelledby="headinggeo" data-parent="#accordion">
+                <div class="card-body">
+                    {%if donnees.geographies[0].location %}
+                    <p><b>Situation </b>: {{donnees.geographies[0].location}}</p>
+                    {%endif%}
+                    {%if donnees.geographies[0].coordinates %}
+                    <p><b>Coordonnées </b>: {{donnees.geographies[0].coordinates}}</p>
+                    {%endif%}
+                    {%if donnees.geographies[0].coastline %}
+                    <p><b>Côte maritime </b>: {{donnees.geographies[0].coastline}}</p>
+                    {%endif%}
+                    {%if donnees.geographies[0].climate %}
+                    <p><b>Climat </b>: {{donnees.geographies[0].climate}}</p>
+                    {%endif%}
+                    {%if donnees.geographies[0].terrain %}
+                    <p><b>Nature de terrains </b>: {{donnees.geographies[0].terrain}}</p>
+                    {%endif%}
+                    {%if donnees.geographies[0].irrigated_land %}
+                    <p><b>Terres irriguées </b>: {{donnees.geographies[0].irrigated_land}}</p>
+                    {%endif%}
+                    {%if donnees.geographies[0].fresh_water_lakes %}
+                    <p><b>Lacs d'eau douce </b>: {{donnees.geographies[0].fresh_water_lakes}}</p>
+                    {%endif%}
+                    {%if donnees.geographies[0].salted_water_lakes %}
+                    <p><b>Lacs d'eau salée </b>: {{donnees.geographies[0].salted_water_lakes}}</p>
+                    {%endif%}
+                    {%if donnees.geographies[0].major_rivers %}
+                    <p><b>Fleuves et rivières principaux </b>: {{donnees.geographies[0].major_rivers}}</p>
+                    {%endif%}
+                    {%if donnees.geographies[0].major_watersheds %}
+                    <p><b>Bassins htdrographiques principaux </b>: {{donnees.geographies[0].major_watersheds}}</p>
+                    {%endif%}
+                    {%if donnees.geographies[0].major_aquifers %}
+                    <p><b>Principaux aquifères </b>: {{donnees.geographies[0].major_aquifers}}</p>
+                    {%endif%}
+                    {%if donnees.geographies[0].population_distribution %}
+                    <p><b>Répartition de la population </b>: {{donnees.geographies[0].population_distribution}}</p>
+                    {%endif%}
+                    {%if donnees.geographies[0].natural_hazards %}
+                    <p><b>Risques naturels </b>: {{donnees.geographies[0].natural_hazards}}</p>
+                    {%endif%}
+                    {%if donnees.geographies[0].note %}
+                    <p><b>Note </b>: {{donnees.geographies[0].geography_note}}</p>
+                    {%endif%}
+                </div>
+            </div>
+        </div>
+
+        <!-- utilisation des terrains-->
+        <div class="card">
+            <div class="card-header" id="headingland">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseland"
+                        aria-expanded="false" aria-controls="collapseland">
+                        Utilisation des terrains
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapseland" class="collapse " aria-labelledby="headingland" data-parent="#accordion">
+                <div class="card-body">
+                    {%if donnees.landuses[0].agricultural_land %}
+                    <p><b>Terres agricoles </b>: {{donnees.landuses[0].agricultural_land }}</p>
+                    {%endif%}
+                    {%if donnees.landuses[0].arable_land %}
+                    <p><b>Terres arables </b>: {{donnees.landuses[0].arable_land }}</p>
+                    {%endif%}
+                    {%if donnees.landuses[0].permanent_crops %}
+                    <p><b>Cultures permanentes </b>: {{donnees.landuses[0].permanent_crops }}</p>
+                    {%endif%}
+                    {%if donnees.landuses[0].permanent_pasture %}
+                    <p><b>Pâtures permanentes </b>: {{donnees.landuses[0].permanent_pasture }}</p>
+                    {%endif%}
+                    {%if donnees.landuses[0].forest %}
+                    <p><b>Forêts </b>: {{donnees.landuses[0].forest }}</p>
+                    {%endif%}
+                    {%if donnees.landuses[0].other %}
+                    <p><b>Autres </b>: {{donnees.landuses[0].other }}</p>
+                    {%endif%}
+                </div>
+            </div>
+        </div>
+
+        <!--ressources-->
+        <div class="card">
+            <div class="card-header" id="headingres">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseres"
+                        aria-expanded="false" aria-controls="collapseres">
+                        Ressources
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapseres" class="collapse " aria-labelledby="headingres"
+                data-parent="#accordion">
+                <div class="card-body">
+                    <p><b>Ressource(s) </b>:
+                        {% if donnees.resources %}
+                    <ul>
+                        {%for res in donnees.resources%}
+                        <li><a href="{{url_for('une_ressource', nom_ressource=res.name)}}">{{res.name}}</a> ({{res.id}})</li>
+                        {%endfor%}
+                    </ul>
+                    {%endif%}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
