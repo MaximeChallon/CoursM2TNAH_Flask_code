@@ -1,0 +1,25 @@
+<form action="{{url_for('recherche')}}" method="post" name="recherche">
+    {{ form.hidden_tag() }}
+
+    <div class="form-group">
+        <label for="nom_pays">Nom du pays recherché </label>
+        {{ form.nom_pays(class_="form-control", placeholder_="Pays") }}
+        <small id="nom_pays" class="form-text text-muted">Entrer tout ou partie du nom d'un
+            pays</small>
+    </div>
+
+    <div class="form-group">
+        <label for="ressources">Ressource possédées</label>
+        {{ form.ressources(class_="form-control") }}
+        <small id="ressources" class="form-text text-muted">Sélectionner une ressource possédée dans le pays</small>
+    </div>
+
+    <div class="form-group">
+        <label for="continents">Continent d'appartenance</label>
+        {{ form.continents(class_="form-control") }}
+        <small id="continents" class="form-text text-muted">Sélectionner un 
+            continent</small>
+    </div>
+
+    <p><input type="submit" value="Rechercher"></p>
+</form>
