@@ -29,3 +29,7 @@ class SuppressionRessource(FlaskForm):
 class AjoutUtilisateur(FlaskForm):
     prenom = StringField("prenom", validators=[])
     password = PasswordField("password", validators=[])
+
+class Connexion(FlaskForm):
+    prenom = StringField("prenom", validators=[])
+    password = PasswordField("password", validators=[])

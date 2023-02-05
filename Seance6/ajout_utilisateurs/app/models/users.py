@@ -10,7 +10,7 @@ class Users(db.Model):
 
     @staticmethod
     def identification(prenom, password):
-        utilisateur = Users.query.filter(Users.prneom == prenom).first()
+        utilisateur = Users.query.filter(Users.prenom == prenom).first()
         if utilisateur and check_password_hash(utilisateur.password, password):
             return utilisateur
         return None

@@ -1,7 +1,8 @@
-from ..app import app, db
+from ..app import app, db, login
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
-class Users(db.Model):
+class Users(UserMixin, db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
@@ -10,7 +11,7 @@ class Users(db.Model):
 
     @staticmethod
     def identification(prenom, password):
-        utilisateur = Users.query.filter(Users.prneom == prenom).first()
+        utilisateur = Users.query.filter(Users.prenom == prenom).first()
         if utilisateur and check_password_hash(utilisateur.password, password):
             return utilisateur
         return None
@@ -43,3 +44,10 @@ class Users(db.Model):
             return True, utilisateur
         except Exception as erreur:
             return False, [str(erreur)]
+
+    def get_id(self):
+        return self.id
+
+    @login.user_loader
+    def get_user_by_id(id):
+        return Users.query.get(int(id))
