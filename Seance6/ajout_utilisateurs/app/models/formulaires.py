@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, SelectMultipleField, TextAreaField
+from wtforms import StringField, SelectField, SelectMultipleField, TextAreaField, PasswordField
 
 class Recherche(FlaskForm):
     nom_pays = StringField("nom_pays", validators=[]) 
@@ -25,3 +25,7 @@ class SuppressionPays(FlaskForm):
 class SuppressionRessource(FlaskForm):        
     code_res =  StringField("code_res", validators=[]) 
     nom_res = SelectField("nom_res", choices=[])
+
+class AjoutUtilisateur(FlaskForm):
+    prenom = StringField("prenom", validators=[])
+    password = PasswordField("password", validators=[])
