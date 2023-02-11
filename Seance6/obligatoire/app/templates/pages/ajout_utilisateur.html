@@ -1,0 +1,26 @@
+{% extends "partials/conteneur.html" %}
+
+{% block body %}
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+
+            <h3 data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
+                aria-controls="collapseExample">
+                Ajouter un utilisateur <i class="fa-solid fa-caret-down"></i>
+        </h3>
+            <div class="collapse show" id="collapseExample">
+                <div class="card card-body">
+                    {% include "partials/formulaires/ajout_utilisateur.html" %}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+
+</div>
+
+{% endblock %}
