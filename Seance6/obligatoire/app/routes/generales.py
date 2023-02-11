@@ -5,6 +5,7 @@ from ..models.factbook import Country, Resources, Map, Elevation
 from ..models.formulaires import Recherche
 from ..utils.transformations import nettoyage_string_to_int, clean_arg
 from sqlalchemy.sql import text
+from flask_login import login_required
 
 @app.route("/")
 def accueil():
@@ -145,9 +146,9 @@ def recherche_rapide(page=1):
         print(e)
         abort(500)
 
-
 @app.route("/recherche", methods=['GET', 'POST'])
 @app.route("/recherche/<int:page>", methods=['GET', 'POST'])
+@login_required
 def recherche(page=1):
     form = Recherche() 
 
