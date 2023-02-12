@@ -1,0 +1,36 @@
+{% extends "partials/conteneur.html" %}
+
+{% block body %}
+
+<div class="container">
+
+    <div class="row">
+        <h1>Visualisation du nombre de ressources pour les 20 pays ayant le plus de ressources</h1>
+        <div>
+            <canvas id="graphique", style="width: 800px;"></canvas>
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+            const ctx = document.getElementById('graphique');
+
+            console.log();
+
+            new Chart(ctx, {
+                type: 'polarArea',
+                data: {
+                    labels: {{labels |tojson}},
+                    datasets: [{
+                        data: {{nombres |tojson}}
+                    }]
+                },
+                options: {
+                }
+            });
+        </script>
+    </div>
+
+</div>
+
+{% endblock %}
