@@ -1,0 +1,35 @@
+<form action="{{url_for('ajout_utilisateur')}}" method="post" name="ajout_utilisateur">
+    {{ form.hidden_tag() }}
+    
+    {% for field, errors in form.errors.items() %}
+        <small class="form-text  alert-danger">
+            {{ ', '.join(errors) }}
+        </small>
+    {% endfor %}
+
+    <div class="form-group">
+        <label for="prenom">Prénom de l'utilisateur</label>
+        {{ form.prenom(class_="form-control", placeholder_="Prénom") }}
+        <small id="prenom" class="form-text text-muted">Entrer le prénom de l'utilisateur</small>
+    </div>
+
+    <div class="form-group">
+        <label for="mail">Mail de l'utilisateur</label>
+        {{ form.mail(class_="form-control", placeholder_="Mail") }}
+        <small id="mail" class="form-text text-muted">Entrer le mail de l'utilisateur</small>
+    </div>
+
+    <div class="form-group">
+        <label for="password">Mot de passe</label>
+        {{ form.password(class_="form-control", placeholder_="Mot de passe") }}
+        <small id="password" class="form-text text-muted">Entrer un mot de passe</small>
+    </div>
+
+    <div class="form-group">
+        <label for="password_confirm">Mot de passe</label>
+        {{ form.password_confirm(class_="form-control", placeholder_="Confirmer le mot de passe") }}
+        <small id="password_confirm" class="form-text text-muted">Confirmer le mot de passe</small>
+    </div>
+
+    <p><input type="submit" value="Ajouter"></p>
+</form>

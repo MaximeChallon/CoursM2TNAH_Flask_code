@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Factbook | {{sous_titre}}</title>
+  {% include "partials/css.html" %}
+  {% include "partials/metadata.html" %}
+  {% include "partials/js.html" %}
+  {% block js %}{%endblock%}
+  {% block css %}{%endblock%}
+
+  <style>    
+    /*the container must be positioned relative:*/
+    .autocomplete {
+      position: relative;
+      display: inline-block;
+    }
+    
+    input {
+      border: 1px solid transparent;
+      background-color: #f1f1f1;
+      padding: 10px;
+      font-size: 16px;
+    }
+    
+    input[type=text] {
+      background-color: #f1f1f1;
+      width: 100%;
+    }
+    
+    input[type=submit] {
+      background-color: DodgerBlue;
+      color: #fff;
+      cursor: pointer;
+    }
+    
+    .autocomplete-items {
+      position: absolute;
+      border: 1px solid #d4d4d4;
+      border-bottom: none;
+      border-top: none;
+      z-index: 99;
+      /*position the autocomplete items to be the same width as the container:*/
+      top: 100%;
+      left: 0;
+      right: 0;
+    }
+    
+    .autocomplete-items div {
+      padding: 10px;
+      cursor: pointer;
+      background-color: #fff; 
+      border-bottom: 1px solid #d4d4d4; 
+    }
+    
+    /*when hovering an item:*/
+    .autocomplete-items div:hover {
+      background-color: #e9e9e9; 
+    }
+    
+    /*when navigating through the items using the arrow keys:*/
+    .autocomplete-active {
+      background-color: DodgerBlue !important; 
+      color: #ffffff; 
+    }
+    </style>
+
+</head>
+
+<body>
+  <div class="bg-image" style="
+    background-image: url('https://www.cia.gov/the-world-factbook/static/778a257ec6e116fbb7aac018c170b3eb/47498/wfb-feature-world.jpg');
+    height: 450px; width:100%;overflow:hidden;margin-top: -200px;"></div>
+
+  <nav class="navbar navbar-expand-lg  fixed-top navbar-light" style="background-color: #e3f2fd;"">
+    <a class=" navbar-brand" href="{{ url_for('pays') }}">Factbook App</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{{ url_for('continents') }}">Continents</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{{ url_for('pays') }}">Pays</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{{ url_for('ressources') }}">Ressources</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{{ url_for('recherche') }}">Recherche</a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Insertions
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ url_for('insertion_pays') }}">Pays</a>
+            <a class="dropdown-item" href="{{ url_for('insertion_ressource') }}">Ressource</a>
+          </div>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Suppressions
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+            <a class="dropdown-item" href="{{ url_for('suppression_pays') }}">Pays</a>
+            <a class="dropdown-item" href="{{ url_for('suppression_ressource') }}">Ressource</a>
+          </div>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown20" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Graphiques
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown20">
+            <a class="dropdown-item" href="{{ url_for('graphiques_ressources_pays') }}">Ressources par pays</a>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+
+    <div  class="collapse navbar-collapse" id="navbarSupportedContent" align="right">
+      <ul class="navbar-nav mr-auto">
+          {% if current_user.is_authenticated %}
+          <li class="nav-item active">
+            <a  class="nav-link" href="{{ url_for('ajout_utilisateur') }}">Ajout utilisateur</a>
+          </li>
+          <li class="nav-item active">
+            <a  class="nav-link" href="{{ url_for('deconnexion') }}">Déconnexion ({{current_user.prenom}})</a>
+          </li>
+          {% else %}
+          <li class="nav-item active">
+            <a  class="nav-link" href="{{ url_for('connexion') }}">Connexion</a>
+          </li>
+          {% endif %} 
+      </ul>
+      {% include "partials/formulaires/recherche_rapide.html" %}
+    </div>
+  </nav>
+
+  <div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="row">
+      <div class="col">
+        {% for category, message in messages %}
+        <div class="alert alert-{{category}}" role="alert">{{ message }}</div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+    {% endwith %}
+    <div class="row">
+      <div class="col">
+        {% block body %}{% endblock %}
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+    crossorigin="anonymous"></script>
+
+<script>
+  function autocomplete(inp, arr) {
+    var currentFocus;
+    inp.addEventListener("input", function (e) {
+      var a, b, i, val = this.value;
+      closeAllLists();
+      if (!val) { return false; }
+      currentFocus = -1;
+      a = document.createElement("DIV");
+      a.setAttribute("id", this.id + "autocomplete-list");
+      a.setAttribute("class", "autocomplete-items");
+      this.parentNode.appendChild(a);
+      for (i = 0; i < arr.length; i++) {
+        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          b = document.createElement("DIV");
+          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(val.length);
+          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          b.addEventListener("click", function (e) {
+            inp.value = this.getElementsByTagName("input")[0].value;
+            closeAllLists();
+          });
+          a.appendChild(b);
+        }
+      }
+    });
+    inp.addEventListener("keydown", function (e) {
+      var x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        currentFocus++;
+        addActive(x);
+      } else if (e.keyCode == 38) { 
+        currentFocus--;
+        addActive(x);
+      } else if (e.keyCode == 13) {
+        e.preventDefault();
+        if (currentFocus > -1) {
+          if (x) x[currentFocus].click();
+        }
+      }
+    });
+    function addActive(x) {
+      if (!x) return false;
+      removeActive(x);
+      if (currentFocus >= x.length) currentFocus = 0;
+      if (currentFocus < 0) currentFocus = (x.length - 1);
+      x[currentFocus].classList.add("autocomplete-active");
+    }
+    function removeActive(x) {
+      for (var i = 0; i < x.length; i++) {
+        x[i].classList.remove("autocomplete-active");
+      }
+    }
+    function closeAllLists(elmnt) {
+      var x = document.getElementsByClassName("autocomplete-items");
+      for (var i = 0; i < x.length; i++) {
+        if (elmnt != x[i] && elmnt != inp) {
+          x[i].parentNode.removeChild(x[i]);
+        }
+      }
+    }
+    document.addEventListener("click", function (e) {
+      closeAllLists(e.target);
+    });
+  }
+
+  const appel = fetch('{{url_for("autocompletion")}}').then(
+    (response) => response.json()
+  ).then(
+    (data) => { return data; }
+  ).catch(function (err) {
+    console.log('Fetch Error :-S', err);
+  });
+
+  const pays = async () => {
+    const a = await appel;
+    autocomplete(document.getElementById("recherche_rapide"), a);
+  };
+  pays();
+</script>
+
+</body>
+
+</html>

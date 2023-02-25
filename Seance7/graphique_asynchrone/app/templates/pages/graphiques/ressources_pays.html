@@ -1,0 +1,62 @@
+{% extends "partials/conteneur.html" %}
+
+{% block body %}
+
+<div class="container">
+
+    <div class="row">
+        <h1>Visualisation du nombre de ressources pour les 20 pays ayant le plus de ressources</h1>
+        <div>
+            <canvas id="graphique", style="width: 1200px;"></canvas>
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-deferred@1.0.2/dist/chartjs-plugin-deferred.min.js"></script>
+        <script type="text/javascript" src="https://github.com/nagix/chartjs-plugin-colorschemes/releases/download/v0.4.0/chartjs-plugin-colorschemes.js"></script>
+
+        <script>
+
+            const ctx = document.getElementById('graphique');
+            
+            var graphe = new Chart(ctx, {
+                type: 'polarArea',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        data: []
+                    }]
+                },
+                options: {
+                }
+            });
+
+            fetch('{{url_for("graphiques_ressources_pays_donnees")}}')
+                .then((response) => {
+                    return response.json();
+                })
+                .then((data) => {
+                    // calcul des labels et des nombres
+                    var labels = [];
+                    var nombres = [];
+
+                    for (var i = 0; i < data.length; i++) {
+                        labels.push(data[i].label);
+                        nombres.push(data[i].nombre);
+                    }
+                    
+                    // ajout des données dans le graphique
+                    graphe.data.labels = labels; ;
+                    graphe.data.datasets.forEach((dataset) => {
+                        dataset.data = nombres;
+                    });
+                    graphe.options.plugins.colorschemes.scheme = 'tableau.RedGold21';
+                    graphe.update();
+                    
+                });
+
+        </script>
+    </div>
+
+</div>
+
+{% endblock %}
