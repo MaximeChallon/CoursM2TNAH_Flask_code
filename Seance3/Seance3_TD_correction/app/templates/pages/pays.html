@@ -1,0 +1,29 @@
+{% extends "partials/conteneur.html" %}
+
+{% block body %}
+
+    <div class="container">
+        <h1>Bienvenue sur l'application du Factbook!</h1>
+        <p>Voici le lien vers le site officiel : <a
+                href="https://www.cia.gov/the-world-factbook/">https://www.cia.gov/the-world-factbook/</a></p>
+        <p>Vous avez choisi d'afficher les données du pays suivant: {{pays}}</p>
+        <p>Longueur de la chaîne de caractères du pays choisi: {{pays|length}} caractères</p>
+        {%if pays|length > 10%}
+            <p>C'est un long nom de pays</p>
+        {%else%}
+            <p>C'est un nom de pays plutôt court</p>
+        {%endif%}
+        
+        <h2>Grandes villes de {{pays}}</h2>
+        {%if grandes_villes %}
+        <ul>
+            {%for ville in grandes_villes %}
+            <li>{{ville}}</li>
+            {%endfor%}
+        </ul>
+        {%else%}
+        <p>Il n'y a pas de grande ville connue pour ce pays</p>
+        {%endif%}
+    </div>
+
+{% endblock %}

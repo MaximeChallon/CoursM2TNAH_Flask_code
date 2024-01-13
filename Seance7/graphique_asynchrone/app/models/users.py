@@ -47,6 +47,7 @@ class Users(UserMixin, db.Model):
             db.session.commit()
             return True, utilisateur
         except Exception as erreur:
+            db.session.rollback()
             return False, [str(erreur)]
 
     def get_id(self):
