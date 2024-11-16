@@ -27,3 +27,11 @@ def nettoyage_string_to_int(chaine):
                 tmp = tmp + int(clean(el))
             res = tmp
     return res
+
+def to_bool(s):
+    r = False 
+    if(s.lower() == "true"):
+        r = True
+    elif(s.lower() == "false"):
+        r = False
+    return r
